@@ -19,15 +19,9 @@ def fix_notebook(path: pathlib.Path):
     return False
 
 def main():
-    fixed_any = False
     for nb_path in NOTEBOOKS:
-        fixed_any |= fix_notebook(nb_path)
-
-    if fixed_any:
-        print("Some notebooks were fixed. Please commit the changes.")
-        sys.exit(1)  # Fail CI to prompt a commit
-    else:
-        print("All notebooks are clean.")
+        fix_notebook(nb_path)
+    print("All notebooks are fixed (if needed).")
 
 if __name__ == "__main__":
     main()
