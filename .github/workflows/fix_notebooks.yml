@@ -27,11 +27,13 @@ jobs:
         run: python fix_notebooks.py
 
       - name: Commit fixes
-        if: ${{ always() }}
+        if: ${{ failure() }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b auto/fix-notebooks || git checkout auto/fix-notebooks
           git add .
           git commit -m "Auto-fix notebooks: remove metadata.widgets" || echo "No changes to commit"
+          git pull --rebase origin auto/fix-notebooks || echo "No remote branch yet"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} auto/fix-notebooks
+
